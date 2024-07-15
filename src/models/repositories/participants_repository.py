@@ -11,10 +11,10 @@ class ParticipantsRepository:
             INSERT INTO participants (id, trip_id, emails_to_invite_id, name) 
             VALUES (?, ?, ?, ?)
             """,
-            participant_infos["id"],
+            (participant_infos["id"],
             participant_infos["trip_id"],
             participant_infos["emails_to_invite_id"],
-            participant_infos["name"]
+            participant_infos["name"],)
         )
         self.__conn.commit()
 
@@ -27,9 +27,9 @@ class ParticipantsRepository:
                 p.name,
                 p.is_confirmed,
                 e.email
-            FROM participants 
+            FROM participants p
             JOIN emails_to_invite e ON p.emails_to_invite_id = e.id
-            WHERE trip_id = ?
+            WHERE p.trip_id = ?
             """,
             (trip_id,)
         )
